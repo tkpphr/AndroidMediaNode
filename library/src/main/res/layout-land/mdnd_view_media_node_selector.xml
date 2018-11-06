@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <com.tkpphr.android.medianode.view.customview.ParentMediaNodeInfoView
+        android:id="@+id/mdnd_parent_info_view"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"/>
+    <View
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_blue_light"/>
+    <com.tkpphr.android.medianode.view.customview.ChildMediaNodeListView
+        android:id="@+id/mdnd_child_list_view"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:layout_weight="2"
+        android:fillViewport="true"
+        android:listSelector="@android:color/transparent"/>
+</LinearLayout>

@@ -1,0 +1,12 @@
+<resources>
+    <string name="mdnd_node">Node</string>
+    <string name="mdnd_path">Path</string>
+    <string name="mdnd_image">Image</string>
+    <string name="mdnd_sound">Sound</string>
+    <string name="mdnd_play">Play</string>
+    <string name="mdnd_stop">Stop</string>
+    <string name="mdnd_none">None</string>
+    <string name="mdnd_select">Select</string>
+    <string name="mdnd_cancel">Cancel</string>
+    <string name="mdnd_hint_search_node_name">Search by node name</string>
+</resources>

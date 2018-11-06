@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mdnd_node">ノード</string>
+    <string name="mdnd_path">パス</string>
+    <string name="mdnd_image">画像</string>
+    <string name="mdnd_sound">音声</string>
+    <string name="mdnd_play">再生</string>
+    <string name="mdnd_stop">停止</string>
+    <string name="mdnd_none">無し</string>
+    <string name="mdnd_select">選択</string>
+    <string name="mdnd_cancel">キャンセル</string>
+    <string name="mdnd_hint_search_node_name">ノード名検索</string>
+</resources>
