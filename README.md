@@ -25,6 +25,7 @@ allprojects {
 dependencies {
     ...
     implementation 'com.tkpphr.android:media-node:1.0.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
@@ -49,6 +50,12 @@ or
     <groupId>com.tkpphr.android</groupId>
     <artifactId>media-node</artifactId>
     <version>1.0.0</version>
+    <type>aar</type>
+  </dependency>
+  <dependency>
+    <groupId>com.android.support</groupId>
+    <artifactId>appcompat-v7</artifactId>
+    <version>27.1.1</version>
     <type>aar</type>
   </dependency>
   <dependency>
