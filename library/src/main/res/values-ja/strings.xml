@@ -24,5 +24,6 @@
     <string name="mdnd_none">無し</string>
     <string name="mdnd_select">選択</string>
     <string name="mdnd_cancel">キャンセル</string>
+    <string name="mdnd_back">戻る</string>
     <string name="mdnd_hint_search_node_name">ノード名検索</string>
 </resources>

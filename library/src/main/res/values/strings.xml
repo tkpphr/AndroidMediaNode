@@ -24,5 +24,6 @@
     <string name="mdnd_none">None</string>
     <string name="mdnd_select">Select</string>
     <string name="mdnd_cancel">Cancel</string>
+    <string name="mdnd_back">Back</string>
     <string name="mdnd_hint_search_node_name">Search by node name</string>
 </resources>

@@ -27,8 +27,9 @@
         android:background="?colorPrimary"
         app:elevation="4dp">
     </android.support.v7.widget.Toolbar>
-    <com.tkpphr.android.medianode.view.customview.MediaNodeExplorerView
-        android:id="@+id/mdnd_media_node_explorer_view"
+    <com.tkpphr.android.medianode.view.customview.MediaNodePickerView
+        android:id="@+id/mdnd_media_node_picker_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+    </com.tkpphr.android.medianode.view.customview.MediaNodePickerView>
 </LinearLayout>

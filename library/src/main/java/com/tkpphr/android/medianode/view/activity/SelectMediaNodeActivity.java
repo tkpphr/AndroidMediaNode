@@ -33,12 +33,13 @@ import com.tkpphr.android.medianode.core.MediaNodeFilter;
 import com.tkpphr.android.medianode.util.MediaNodeSelector;
 import com.tkpphr.android.medianode.util.SelectableMediaNodeImpl;
 import com.tkpphr.android.medianode.view.customview.MediaNodeExplorerView;
+import com.tkpphr.android.medianode.view.customview.MediaNodePickerView;
 import com.tkpphr.android.medianode.view.customview.OnMediaNodeSelectedListener;
 import com.tkpphr.android.medianode.view.dialog.ConfirmMediaNodeSelectDialog;
 
-public class SelectMediaNodeActivity extends AppCompatActivity implements OnMediaNodeSelectedListener,ConfirmMediaNodeSelectDialog.OnConfirmedListener {
+public class SelectMediaNodeActivity extends AppCompatActivity implements MediaNodePickerView.OnMediaNodePickedListener {
     private Toolbar toolbar;
-    private MediaNodeExplorerView mediaNodeExplorerView;
+    private MediaNodePickerView mediaNodePickerView;
 
     public static Intent createIntent(Context context, String title, MediaNode<?> startNode, MediaNodeFilter<MediaNode<?>> filter){
         Intent intent=new Intent(context,SelectMediaNodeActivity.class);
@@ -72,14 +73,14 @@ public class SelectMediaNodeActivity extends AppCompatActivity implements OnMedi
             toolbar.setVisibility(View.GONE);
         }
         setTitle(getIntent().getStringExtra("title"));
-        mediaNodeExplorerView=findViewById(R.id.mdnd_media_node_explorer_view);
-        mediaNodeExplorerView.setOnMediaNodeSelectedListener(this);
+        mediaNodePickerView=findViewById(R.id.mdnd_media_node_picker_view);
+        mediaNodePickerView.setOnMediaNodePickedListener(this);
         if(savedInstanceState==null) {
             SelectableMediaNodeImpl rootNode = (SelectableMediaNodeImpl) getIntent().getSerializableExtra("node");
             String startPath=getIntent().getStringExtra("start_path");
             SelectableMediaNodeImpl startNode=rootNode.find(startPath);
             MediaNodeSelector mediaNodeSelector=new MediaNodeSelector(startNode);
-            mediaNodeExplorerView.setMediaNodeSelector(mediaNodeSelector);
+            mediaNodePickerView.initialize(mediaNodeSelector);
         }
         setResult(RESULT_CANCELED);
     }
@@ -99,19 +100,7 @@ public class SelectMediaNodeActivity extends AppCompatActivity implements OnMedi
     }
 
     @Override
-    public void onBackPressed() {
-        if(!mediaNodeExplorerView.back()) {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public void onMediaNodeSelected(MediaNode<?> mediaNode) {
-        ConfirmMediaNodeSelectDialog.newInstance(mediaNode).show(getSupportFragmentManager(),null);
-    }
-
-    @Override
-    public void onConfirmed(MediaNode<?> mediaNode) {
+    public void onMediaNodePicked(MediaNode<?> mediaNode) {
         Intent intent = new Intent();
         intent.putExtra("selected_media_node",((SelectableMediaNodeImpl)mediaNode).getMediaNode());
         setResult(Activity.RESULT_OK, intent);

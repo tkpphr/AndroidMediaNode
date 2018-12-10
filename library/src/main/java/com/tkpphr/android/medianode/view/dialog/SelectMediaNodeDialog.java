@@ -32,6 +32,7 @@ import com.tkpphr.android.medianode.core.MediaNodeFilter;
 import com.tkpphr.android.medianode.util.MediaNodeSelector;
 import com.tkpphr.android.medianode.util.SelectableMediaNodeImpl;
 import com.tkpphr.android.medianode.view.customview.MediaNodeExplorerView;
+import com.tkpphr.android.medianode.view.customview.MediaNodePickerView;
 import com.tkpphr.android.medianode.view.customview.OnMediaNodeSelectedListener;
 
 public class SelectMediaNodeDialog extends AppCompatDialogFragment implements ConfirmMediaNodeSelectDialog.OnConfirmedListener{
@@ -84,23 +85,14 @@ public class SelectMediaNodeDialog extends AppCompatDialogFragment implements Co
 		}
 		AlertDialog.Builder dialog=new AlertDialog.Builder(getContext());
 		View view= View.inflate(getContext(),R.layout.mdnd_dialog_select_media_node,null);
-		final MediaNodeExplorerView mediaNodeExplorerView=view.findViewById(R.id.mdnd_media_node_explorer_view);
-		mediaNodeExplorerView.setFocusable(true);
-		mediaNodeExplorerView.setFocusableInTouchMode(true);
-		mediaNodeExplorerView.requestFocus();
-		mediaNodeExplorerView.setOnKeyListener(new View.OnKeyListener() {
+		MediaNodePickerView mediaNodePickerView=(MediaNodePickerView) view;
+		mediaNodePickerView.setOnMediaNodePickedListener(new MediaNodePickerView.OnMediaNodePickedListener() {
 			@Override
-			public boolean onKey(View view, int i, KeyEvent keyEvent) {
-				if(keyEvent.getKeyCode()==KeyEvent.KEYCODE_BACK && keyEvent.getAction()==KeyEvent.ACTION_DOWN) {
-					return mediaNodeExplorerView.back();
+			public void onMediaNodePicked(MediaNode<?> mediaNode) {
+				if(onMediaNodeSelectedListener!=null){
+					onMediaNodeSelectedListener.onMediaNodeSelected(mediaNode);
 				}
-				return false;
-			}
-		});
-		mediaNodeExplorerView.setOnMediaNodeSelectedListener(new OnMediaNodeSelectedListener() {
-			@Override
-			public void onMediaNodeSelected(MediaNode<?> mediaNode) {
-				ConfirmMediaNodeSelectDialog.newInstance(mediaNode).show(getChildFragmentManager(),null);
+				onDismiss(getDialog());
 			}
 		});
 		if(savedInstanceState==null){
@@ -109,7 +101,7 @@ public class SelectMediaNodeDialog extends AppCompatDialogFragment implements Co
 			String startPath=args.getString("start_path");
 			SelectableMediaNodeImpl startNode=rootNode.find(startPath);
 			MediaNodeSelector mediaNodeSelector=new MediaNodeSelector(startNode);
-			mediaNodeExplorerView.setMediaNodeSelector(mediaNodeSelector);
+			mediaNodePickerView.initialize(mediaNodeSelector);
 		}
 		return dialog.setTitle(getArguments().getString("title"))
 				.setView(view)

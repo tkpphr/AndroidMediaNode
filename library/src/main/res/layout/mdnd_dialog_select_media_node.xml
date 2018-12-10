@@ -14,19 +14,8 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<RelativeLayout
+<com.tkpphr.android.medianode.view.customview.MediaNodePickerView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mdnd_media_node_picker_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.tkpphr.android.medianode.view.customview.MediaNodeExplorerView
-        android:id="@+id/mdnd_media_node_explorer_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/mdnd_dummy_view"/>
-    <View
-        android:id="@+id/mdnd_dummy_view"
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"/>
-</RelativeLayout>
+    android:layout_height="match_parent"/>

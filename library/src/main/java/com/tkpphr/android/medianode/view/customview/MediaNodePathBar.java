@@ -57,6 +57,10 @@ public class MediaNodePathBar extends TabLayout{
             }
             addTab(tab);
         }
+        scrollToLastTab();
+    }
+
+    public void scrollToLastTab(){
         post(new Runnable() {
             @Override
             public void run() {

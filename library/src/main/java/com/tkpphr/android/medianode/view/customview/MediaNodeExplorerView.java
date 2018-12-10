@@ -24,6 +24,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -37,6 +38,7 @@ import java.util.List;
 
 public class MediaNodeExplorerView extends LinearLayout{
     private MediaNodePathBar mediaNodePathBar;
+    private Button backButton;
     private ImageView searchButton;
     private SearchView searchView;
     private MediaNodeSelectorView mediaNodeSelectorView;
@@ -83,6 +85,13 @@ public class MediaNodeExplorerView extends LinearLayout{
                 return false;
             }
         });
+        backButton=findViewById(R.id.mdnd_back_button);
+        backButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                back();
+            }
+        });
         searchButton=findViewById(R.id.mdnd_search_button);
         searchButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -106,6 +115,7 @@ public class MediaNodeExplorerView extends LinearLayout{
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void onRestoreInstanceState(Parcelable state) {
         if(state instanceof Bundle){
             Bundle savedState=(Bundle)state;
@@ -122,6 +132,7 @@ public class MediaNodeExplorerView extends LinearLayout{
         if(mediaNodeSelector==null){
             return;
         }
+        backButton.setEnabled(isSearchEnabled || mediaNodeSelector.getCount() > 1);
         mediaNodePathBar.setNodePath(mediaNodeSelector.getCurrentNode().getFullPath());
         mediaNodeSelectorView.refresh();
         foundMediaNodeListView.refresh();
@@ -131,8 +142,12 @@ public class MediaNodeExplorerView extends LinearLayout{
         if(isSearchEnabled){
             setSearchEnabled(false);
             return true;
+        }else {
+            boolean isBacked=mediaNodeSelector.back();
+            backButton.setEnabled(mediaNodeSelector.getCount()>1);
+            return isBacked;
         }
-        return mediaNodeSelector.back();
+
     }
 
     public MediaNode<?> getCurrentNode(){
@@ -153,6 +168,10 @@ public class MediaNodeExplorerView extends LinearLayout{
         mediaNodeSelectorView.scrollToChild(childMediaNode);
     }
 
+    public MediaNodeSelector getMediaNodeSelector() {
+        return mediaNodeSelector;
+    }
+
     public void setMediaNodeSelector(final MediaNodeSelector mediaNodeSelector){
         this.mediaNodeSelector=mediaNodeSelector;
         mediaNodePathBar.setNodePath(mediaNodeSelector.getCurrentNode().getFullPath());
@@ -165,6 +184,7 @@ public class MediaNodeExplorerView extends LinearLayout{
             }
         });
         mediaNodeSelectorView.setMediaNode(mediaNodeSelector,mediaNodeSelector.getCurrentNode());
+        backButton.setEnabled(false);
     }
 
     public void setOnMediaNodeSelectedListener(OnMediaNodeSelectedListener onMediaNodeSelectedListener){
@@ -175,6 +195,7 @@ public class MediaNodeExplorerView extends LinearLayout{
     public void setSearchEnabled(boolean isSearchEnabled){
         this.isSearchEnabled=isSearchEnabled;
         if(isSearchEnabled){
+            backButton.setEnabled(true);
             searchButton.setVisibility(INVISIBLE);
             mediaNodeSelectorView.setVisibility(INVISIBLE);
             mediaNodePathBar.setVisibility(INVISIBLE);
@@ -182,6 +203,7 @@ public class MediaNodeExplorerView extends LinearLayout{
             foundMediaNodeListView.setVisibility(VISIBLE);
             foundMediaNodeListView.refresh();
         }else {
+            backButton.setEnabled(mediaNodeSelector.getCount()>1);
             searchButton.setVisibility(VISIBLE);
             mediaNodeSelectorView.setVisibility(VISIBLE);
             mediaNodePathBar.setVisibility(VISIBLE);

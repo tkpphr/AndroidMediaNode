@@ -74,15 +74,12 @@ public class FoundMediaNodeListAdapter extends BaseAdapter{
         this.onJumpMediaNodeListener = onJumpMediaNodeListener;
     }
 
+    @SuppressWarnings("unchecked")
     public void refresh(){
-        Iterator<MediaNode<?>> iterator=foundList.iterator();
-        while (iterator.hasNext()){
-            MediaNode mediaNode=iterator.next();
-            if(!mediaNode.getNodeName().toLowerCase().contains(searchString.toLowerCase())){
-                iterator.remove();
-            }
+        if(mediaNodeSelector==null){
+            return;
         }
-        notifyDataSetChanged();
+        reset(mediaNodeSelector,searchString);
     }
 
     @SuppressWarnings("unchecked")

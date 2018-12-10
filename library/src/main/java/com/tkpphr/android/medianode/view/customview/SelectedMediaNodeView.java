@@ -17,6 +17,9 @@ package com.tkpphr.android.medianode.view.customview;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -32,12 +35,14 @@ import com.tkpphr.android.medianode.core.MediaNode;
 import com.tkpphr.android.medianode.core.MediaNodeSound;
 
 public class SelectedMediaNodeView extends LinearLayout{
+	private MediaNode<?> mediaNode;
 	private TextView nodeName;
 	private TextView nodeInfo;
 	private ImageView nodeImage;
 	private Button playButton;
 	private Button stopButton;
 	private MediaNodeSound sound;
+
 
 	public SelectedMediaNodeView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -72,7 +77,37 @@ public class SelectedMediaNodeView extends LinearLayout{
 		releaseSound();
 	}
 
+	@Nullable
+	@Override
+	protected Parcelable onSaveInstanceState() {
+		Bundle outState=new Bundle();
+		outState.putParcelable("super_state",super.onSaveInstanceState());
+		if(mediaNode!=null) {
+			outState.putSerializable("media_node", mediaNode);
+		}
+		return outState;
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Parcelable state) {
+		if(state instanceof Bundle){
+			Bundle savedState=(Bundle)state;
+			state=savedState.getParcelable("super_state");
+			Object savedMediaNode=savedState.getSerializable("media_node");
+			if(savedMediaNode instanceof MediaNode<?>){
+				setMediaNode((MediaNode<?>) savedMediaNode);
+			}
+		}
+		super.onRestoreInstanceState(state);
+	}
+
+	@Nullable
+	public MediaNode<?> getMediaNode() {
+		return mediaNode;
+	}
+
 	public void setMediaNode(MediaNode<?> mediaNode){
+		this.mediaNode=mediaNode;
 		nodeName.setText(mediaNode.getNodeName());
 		nodeInfo.setText(mediaNode.getNodeInfo(getContext()));
 		nodeImage.setImageBitmap(null);

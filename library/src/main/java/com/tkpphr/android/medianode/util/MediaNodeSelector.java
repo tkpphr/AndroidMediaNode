@@ -96,6 +96,17 @@ public class MediaNodeSelector{
 
     @SuppressWarnings("unchecked")
     public boolean back(){
+        organize();
+        if(selectedNodeStack.size()>1) {
+            selectedNodeStack.pop();
+            onCurrentNodeChanged();
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public void organize(){
         Iterator<MediaNode<?>> iterator=selectedNodeStack.iterator();
         while (iterator.hasNext()){
             if(rootNode.find(iterator.next().getFullPath())==null){
@@ -103,16 +114,10 @@ public class MediaNodeSelector{
             }
         }
         MediaNode<?> previousNode=selectedNodeStack.pop();
-        while (getCount()>1 && previousNode==getCurrentNode()) {
+        while (previousNode==getCurrentNode()) {
             previousNode=selectedNodeStack.pop();
         }
-        if(selectedNodeStack.size()>=1) {
-            onCurrentNodeChanged();
-            return true;
-        }else {
-            selectedNodeStack.push(previousNode);
-            return false;
-        }
+        selectedNodeStack.push(previousNode);
     }
 
     @SuppressWarnings("unchecked")
